@@ -39,13 +39,13 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
 let NowHour = new Date().getHours();
 let llhelp=true;
-if ($.isNode() && process.env.CC_NOHELPAFTER8) {	
+if ($.isNode() && process.env.CC_NOHELPAFTER8) {
 	if (process.env.CC_NOHELPAFTER8=="true"){
 		if (NowHour>8){
 			llhelp=false;
 			console.log(`现在是9点后时段，不启用互助....`);
-		}			
-	}	
+		}
+	}
 }
 const fs = require('fs');
 let boolneedUpdate=false;
@@ -63,7 +63,7 @@ if (Fileexists) {
 
 let WP_APP_TOKEN_ONE = "";
 /* if ($.isNode()) {
-	if (process.env.WP_APP_TOKEN_ONE) {		
+	if (process.env.WP_APP_TOKEN_ONE) {
 		WP_APP_TOKEN_ONE = process.env.WP_APP_TOKEN_ONE;
 	}
 }
@@ -114,7 +114,7 @@ let NoNeedCodes = [];
               await GetCollect();
 			  if(llgetshare){
 				  await $.wait(5000);
-				  lnrun++;				  
+				  lnrun++;
 			  }
 			  if(lnrun==10){
 				  console.log(`访问接口次数达到10次，休息一分钟.....`);
@@ -217,7 +217,7 @@ async function jdFruit() {
       await doTenWaterAgain();//再次浇水
       await predictionFruit();//预测水果成熟时间
     } else {
-      console.log(`初始化农场数据异常, 请登录京东 app查看农场功能是否正常`); 
+      console.log(`初始化农场数据异常, 请登录京东 app查看农场功能是否正常`);
 	  message+=`初始化农场数据异常, 请登录京东 app查看农场功能是否正常`;
     }
   } catch (e) {
@@ -316,7 +316,7 @@ async function doDailyTask() {
   } else {
     console.log(`给${$.farmTask.waterFriendTaskInit.waterFriendMax}个好友浇水任务已完成\n`)
   }
-  
+
   await getAwardInviteFriend();
   await clockInIn();//打卡领水
   await executeWaterRains();//水滴雨
@@ -474,7 +474,7 @@ async function doTenWaterAgain() {
   }
   if (`${jdFruitBeanCard}` === 'true' && JSON.stringify($.myCardInfoRes).match('限时翻倍')) {
     console.log(`\n您设置的是水滴换豆功能,现在为您换豆`);
-	
+
 	for (let lncount = 0; lncount < $.myCardInfoRes.beanCard; lncount++) {
 	    if (totalEnergy >= 150 && $.myCardInfoRes.beanCard > 0) {
 	        //使用水滴换豆卡
@@ -482,14 +482,14 @@ async function doTenWaterAgain() {
 	        console.log(`使用水滴换豆卡结果:${JSON.stringify($.userMyCardRes)}`);
 	        if ($.userMyCardRes.code === '0') {
 				totalEnergy=totalEnergy-100;
-	            message += `【水滴换豆卡】获得${$.userMyCardRes.beanCount}个京豆\n`;	            
+	            message += `【水滴换豆卡】获得${$.userMyCardRes.beanCount}个京豆\n`;
 	        }
 	    } else {
 	        console.log(`您目前水滴:${totalEnergy}g,水滴换豆卡${$.myCardInfoRes.beanCard}张,暂不满足水滴换豆的条件,为您继续浇水`)
 			break;
 	    }
 	}
-	return;   
+	// return;
   }
   // if (totalEnergy > 100 && $.myCardInfoRes.fastCard > 0) {
   //   //使用快速浇水卡
@@ -775,7 +775,7 @@ async function getExtraAward() {
 }
 //助力好友
 async function masterHelpShare() {
-  
+
   await initForFarm();
   let salveHelpAddWater = 0;
   let remainTimes = 3;//今日剩余助力次数,默认3次（京东农场每人每天3次助力机会）。
@@ -795,7 +795,7 @@ async function masterHelpShare() {
 				console.log(`${code}助力已满，跳过...`);
 				continue;
 			}
-		}        
+		}
 		console.log(`${$.UserName}开始助力: ${code}`);
 		if (!code) continue;
 		if (!$.farmInfo.farmUserPro) {
@@ -858,7 +858,7 @@ async function masterHelpShare() {
     // message += `【助力好友👬】获得${salveHelpAddWater}g💧\n`;
     console.log(`【助力好友👬】获得${salveHelpAddWater}g💧\n`);
   }
-  message += `【今日剩余助力👬】${remainTimes}次\n`;  
+  message += `【今日剩余助力👬】${remainTimes}次\n`;
 }
 //水滴雨
 async function executeWaterRains() {
@@ -1128,7 +1128,7 @@ async function GetCollect() {
         if (!llfound) {
             console.log($.UserName + "该账号无缓存，尝试联网获取互助码.....");
 			llgetshare=true;
-            await initForFarm();			
+            await initForFarm();
             if ($.farmInfo.farmUserPro) {
                 var tempAddCK = {};
 				strShareCode=$.farmInfo.farmUserPro.shareCode;
@@ -1409,13 +1409,13 @@ async function initForFarm() {
     };
     $.post(option, (err, resp, data) => {
       try {
-        if (err) {		  
+        if (err) {
           console.log('\ninitForFarm: API查询请求失败 ‼️‼️');
           console.log(JSON.stringify(err));
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            $.farmInfo = JSON.parse(data)			
+            $.farmInfo = JSON.parse(data)
           }
         }
       } catch (e) {
@@ -1481,7 +1481,7 @@ function requireConfig() {
     console.log('开始获取配置文件\n')
     notify = $.isNode() ? require('./sendNotify') : '';
     //Node.js用户请在jdCookie.js处填写京东ck;
-    const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';   
+    const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
     //IOS等用户直接用NobyDa的jd cookie
     if ($.isNode()) {
       Object.keys(jdCookieNode).forEach((item) => {
